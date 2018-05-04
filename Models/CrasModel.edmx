@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CrasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CrasModelStoreContainer">
+    <EntitySet Name="VoitureSet" EntityType="CrasModel.Store.VoitureSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProprietaireSet" EntityType="CrasModel.Store.ProprietaireSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="VoitureProprietaire" Association="CrasModel.Store.VoitureProprietaire">
+      <End Role="Voiture" EntitySet="VoitureSet" />
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="VoitureSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Matricule" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Marque" Type="int" Nullable="false" />
+    <Property Name="Couleur" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Carburant" Type="int" Nullable="false" />
+    <Property Name="DateMC" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modele" Type="int" Nullable="false" />
+    <Property Name="ProprietaireId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProprietaireSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NumPermis" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Tel" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="VoitureProprietaire">
+    <End Role="Voiture" Type="CrasModel.Store.VoitureSet" Multiplicity="*" />
+    <End Role="Proprietaire" Type="CrasModel.Store.ProprietaireSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CrasModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CrasModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="VoitureSet" EntityType="CrasModel.Voiture" />
+          <EntitySet Name="ProprietaireSet" EntityType="CrasModel.Proprietaire" />
+          <AssociationSet Name="VoitureProprietaire" Association="CrasModel.VoitureProprietaire">
+            <End Role="Voiture" EntitySet="VoitureSet" />
+            <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Matricule" Type="String" Nullable="false" />
+          <Property Name="Marque" Type="CrasModel.EnumMarque" Nullable="false" />
+          <Property Name="Couleur" Type="String" Nullable="false" />
+          <Property Name="Carburant" Type="CrasModel.EnumCarburant" Nullable="false" />
+          <Property Name="DateMC" Type="String" Nullable="false" />
+          <Property Name="Modele" Type="CrasModel.EnumModel" Nullable="false" />
+          <NavigationProperty Name="Proprietaire" Relationship="CrasModel.VoitureProprietaire" FromRole="Voiture" ToRole="Proprietaire" />
+          <Property Name="ProprietaireId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proprietaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="NumPermis" Type="String" Nullable="false" />
+          <Property Name="Contact" Type="CrasModel.ContactInfo" Nullable="false" />
+          <NavigationProperty Name="Voiture" Relationship="CrasModel.VoitureProprietaire" FromRole="Proprietaire" ToRole="Voiture" />
+        </EntityType>
+        <EnumType Name="EnumMarque">
+          <Member Name="Volkswagen" Value="1" />
+          <Member Name="Peugeot" Value="2" />
+          <Member Name="Renault" Value="3" />
+        </EnumType>
+        <EnumType Name="EnumModel">
+          <Member Name="Polo" Value="1" />
+          <Member Name="Passat" Value="2" />
+          <Member Name="Golf" Value="3" />
+          <Member Name="P301" Value="4" />
+          <Member Name="P407" Value="5" />
+          <Member Name="P508" Value="6" />
+          <Member Name="Megane" Value="7" />
+          <Member Name="Clio" Value="8" />
+          <Member Name="Symbol" Value="9" />
+        </EnumType>
+        <EnumType Name="EnumCarburant">
+          <Member Name="Essence" Value="1" />
+          <Member Name="Diesel" Value="2" />
+        </EnumType>
+        <ComplexType Name="ContactInfo">
+          <Property Type="String" Name="Adress" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Tel" Nullable="false" />
+        </ComplexType>
+        <Association Name="VoitureProprietaire">
+          <End Type="CrasModel.Voiture" Role="Voiture" Multiplicity="*" />
+          <End Type="CrasModel.Proprietaire" Role="Proprietaire" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Proprietaire">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Voiture">
+              <PropertyRef Name="ProprietaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CrasModelStoreContainer" CdmEntityContainer="CrasModelContainer">
+    <EntitySetMapping Name="VoitureSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CrasModel.Voiture)">
+        <MappingFragment StoreEntitySet="VoitureSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+          <ScalarProperty Name="Marque" ColumnName="Marque" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+          <ScalarProperty Name="Carburant" ColumnName="Carburant" />
+          <ScalarProperty Name="DateMC" ColumnName="DateMC" />
+          <ScalarProperty Name="Modele" ColumnName="Modele" />
+          <ScalarProperty Name="ProprietaireId" ColumnName="ProprietaireId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProprietaireSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CrasModel.Proprietaire)">
+        <MappingFragment StoreEntitySet="ProprietaireSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="NumPermis" ColumnName="NumPermis" />
+          <ComplexProperty Name="Contact" TypeName="CrasModel.ContactInfo">
+            <ScalarProperty Name="Adress" ColumnName="Contact_Adress" />
+            <ScalarProperty Name="Email" ColumnName="Contact_Email" />
+            <ScalarProperty Name="Tel" ColumnName="Contact_Tel" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

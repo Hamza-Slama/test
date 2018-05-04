@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CrasModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="CrasModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="VoitureSet" EntityType="CrasModel.Voiture" />
+    <EntitySet Name="ProprietaireSet" EntityType="CrasModel.Proprietaire" />
+    <AssociationSet Name="VoitureProprietaire" Association="CrasModel.VoitureProprietaire">
+      <End Role="Voiture" EntitySet="VoitureSet" />
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Voiture">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Matricule" Type="String" Nullable="false" />
+    <Property Name="Marque" Type="CrasModel.EnumMarque" Nullable="false" />
+    <Property Name="Couleur" Type="String" Nullable="false" />
+    <Property Name="Carburant" Type="CrasModel.EnumCarburant" Nullable="false" />
+    <Property Name="DateMC" Type="String" Nullable="false" />
+    <Property Name="Modele" Type="CrasModel.EnumModel" Nullable="false" />
+    <NavigationProperty Name="Proprietaire" Relationship="CrasModel.VoitureProprietaire" FromRole="Voiture" ToRole="Proprietaire" />
+    <Property Name="ProprietaireId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Proprietaire">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" Nullable="false" />
+    <Property Name="NumPermis" Type="String" Nullable="false" />
+    <Property Name="Contact" Type="CrasModel.ContactInfo" Nullable="false" />
+    <NavigationProperty Name="Voiture" Relationship="CrasModel.VoitureProprietaire" FromRole="Proprietaire" ToRole="Voiture" />
+  </EntityType>
+  <EnumType Name="EnumMarque">
+    <Member Name="Volkswagen" Value="1" />
+    <Member Name="Peugeot" Value="2" />
+    <Member Name="Renault" Value="3" />
+  </EnumType>
+  <EnumType Name="EnumModel">
+    <Member Name="Polo" Value="1" />
+    <Member Name="Passat" Value="2" />
+    <Member Name="Golf" Value="3" />
+    <Member Name="P301" Value="4" />
+    <Member Name="P407" Value="5" />
+    <Member Name="P508" Value="6" />
+    <Member Name="Megane" Value="7" />
+    <Member Name="Clio" Value="8" />
+    <Member Name="Symbol" Value="9" />
+  </EnumType>
+  <EnumType Name="EnumCarburant">
+    <Member Name="Essence" Value="1" />
+    <Member Name="Diesel" Value="2" />
+  </EnumType>
+  <ComplexType Name="ContactInfo">
+    <Property Type="String" Name="Adress" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Tel" Nullable="false" />
+  </ComplexType>
+  <Association Name="VoitureProprietaire">
+    <End Type="CrasModel.Voiture" Role="Voiture" Multiplicity="*" />
+    <End Type="CrasModel.Proprietaire" Role="Proprietaire" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

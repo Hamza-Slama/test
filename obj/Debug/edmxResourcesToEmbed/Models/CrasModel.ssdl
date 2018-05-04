@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CrasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CrasModelStoreContainer">
+    <EntitySet Name="VoitureSet" EntityType="CrasModel.Store.VoitureSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProprietaireSet" EntityType="CrasModel.Store.ProprietaireSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="VoitureProprietaire" Association="CrasModel.Store.VoitureProprietaire">
+      <End Role="Voiture" EntitySet="VoitureSet" />
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="VoitureSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Matricule" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Marque" Type="int" Nullable="false" />
+    <Property Name="Couleur" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Carburant" Type="int" Nullable="false" />
+    <Property Name="DateMC" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modele" Type="int" Nullable="false" />
+    <Property Name="ProprietaireId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProprietaireSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NumPermis" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Tel" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="VoitureProprietaire">
+    <End Role="Voiture" Type="CrasModel.Store.VoitureSet" Multiplicity="*" />
+    <End Role="Proprietaire" Type="CrasModel.Store.ProprietaireSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

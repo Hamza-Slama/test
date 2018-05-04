@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CrasModelStoreContainer" CdmEntityContainer="CrasModelContainer">
+    <EntitySetMapping Name="VoitureSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CrasModel.Voiture)">
+        <MappingFragment StoreEntitySet="VoitureSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+          <ScalarProperty Name="Marque" ColumnName="Marque" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+          <ScalarProperty Name="Carburant" ColumnName="Carburant" />
+          <ScalarProperty Name="DateMC" ColumnName="DateMC" />
+          <ScalarProperty Name="Modele" ColumnName="Modele" />
+          <ScalarProperty Name="ProprietaireId" ColumnName="ProprietaireId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProprietaireSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CrasModel.Proprietaire)">
+        <MappingFragment StoreEntitySet="ProprietaireSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="NumPermis" ColumnName="NumPermis" />
+          <ComplexProperty Name="Contact" TypeName="CrasModel.ContactInfo">
+            <ScalarProperty Name="Adress" ColumnName="Contact_Adress" />
+            <ScalarProperty Name="Email" ColumnName="Contact_Email" />
+            <ScalarProperty Name="Tel" ColumnName="Contact_Tel" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
